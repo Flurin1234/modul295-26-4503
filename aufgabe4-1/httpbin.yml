@@ -1,0 +1,23 @@
+info:
+  name: httpbin
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: https://httpbin.org/post
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Flurin",
+        "klasse": "Z",
+        "tool": "Bruno"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

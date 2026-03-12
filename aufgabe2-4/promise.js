@@ -1,12 +1,17 @@
+async function req() {
+    fetch("https://httpbin.org/status/500", { method: "DELETE" })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+            return response.text();
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+        .finally(() => {
+            console.log("Anfrage abgeschlossen");
+        });
+}
 
-fetch("https://httpbin.org/status/403", { method: "DELETE" })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error("geht nicht");
-        }
-        console.log("Erfolgreich!");
-    })
-    .catch((reason) => { console.error(`Fehler ${reason}`); })
-    .finally(() => {
-        console.log("Anfrage abgeschlossen");
-    });
+req();
