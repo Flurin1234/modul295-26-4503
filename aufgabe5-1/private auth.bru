@@ -1,0 +1,21 @@
+meta {
+  name: private auth
+  type: http
+  seq: 12
+}
+
+get {
+  url: http://localhost:3000/private
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: zli
+  password: zli1234
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
