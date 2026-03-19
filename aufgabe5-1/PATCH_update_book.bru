@@ -1,0 +1,21 @@
+meta {
+  name: update Book
+  type: http
+  seq: 6
+}
+
+patch {
+  url: http://localhost:3000/books/978-0553385007
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "Gone Girl - 2nd Edition"
+  }
+}

@@ -1,0 +1,31 @@
+meta {
+  name: New Book
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/books
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "isbn": "978-0307269925",
+    "title": "",
+    "year": 2005,
+    "author": "Julian"
+  }
+}
+
+tests {
+  test("book without title", function () {
+    const data = res.getBody();
+    expect(res.getStatus()).to.equal(422);
+  });
+}

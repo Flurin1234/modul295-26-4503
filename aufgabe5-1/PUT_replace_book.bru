@@ -1,0 +1,24 @@
+meta {
+  name: replace book
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/books/978-0307269935
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "isbn": "978-0307269935",
+    "title": "Updated: The Girl with the Dragon Tattoo",
+    "year": 2010,
+    "author": ""
+  }
+}

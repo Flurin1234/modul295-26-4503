@@ -1,0 +1,16 @@
+meta {
+  name: /me
+  type: http
+  seq: 9
+}
+
+patch {
+  url: http://localhost:3009/me
+}
+
+body:json {
+  {
+    "vorname": "Fabian Spiri",
+    "alter": 17
+  }
+}

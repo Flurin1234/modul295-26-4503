@@ -1,0 +1,15 @@
+meta {
+  name: /names
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3009/names
+  body: json
+  auth: none
+}
+
+body:form-urlencoded {
+  name: Max Mustermann
+}

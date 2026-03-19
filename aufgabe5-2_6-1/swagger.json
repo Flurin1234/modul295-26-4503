@@ -1,0 +1,336 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Flurins Bibliothek API",
+    "version": "1.0.0",
+    "description": "API für Bücher und Ausleihen"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/books": {
+      "get": {
+        "summary": "Get all books",
+        "description": "Returns a list of all books",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new book",
+        "description": "Adds a new book to the collection",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "book",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Book created",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "422": {
+            "description": "All attributes must be filled in"
+          }
+        }
+      }
+    },
+    "/books/{isbn}": {
+      "get": {
+        "summary": "Get a book by ISBN",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book found",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "description": "Buch nicht gefunden"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace a book completely",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "book",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book updated",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "description": "Buch nicht gefunden"
+          },
+          "422": {
+            "description": "Alle Attribute müssen ausgefüllt sein"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update parts of a book",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "updates",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookPatch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book updated partially",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "description": "Buch nicht gefunden"
+          },
+          "422": {
+            "description": "Alle Attribute müssen ausgefüllt sein"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a book",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Book deleted"
+          },
+          "404": {
+            "description": "Buch nicht gefunden"
+          }
+        }
+      }
+    },
+    "/lends": {
+      "get": {
+        "summary": "Get all lends",
+        "description": "Returns a list of all lends",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Lend"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new lend",
+        "description": "Creates a new lend entry",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "lendInput",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LendInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lend created",
+            "schema": {
+              "$ref": "#/definitions/Lend"
+            }
+          },
+          "400": {
+            "description": "customerId and isbn are required"
+          }
+        }
+      }
+    },
+    "/lends/{id}": {
+      "get": {
+        "summary": "Get a lend by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lend found",
+            "schema": {
+              "$ref": "#/definitions/Lend"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a lend by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lend deleted"
+          },
+          "404": {
+            "description": "Lend not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "required": ["isbn", "title", "year", "author"],
+      "properties": {
+        "isbn": {
+          "type": "string",
+          "example": "978-3-16-148410-0"
+        },
+        "title": {
+          "type": "string",
+          "example": "Der Alchimist"
+        },
+        "year": {
+          "type": "integer",
+          "example": 1988
+        },
+        "author": {
+          "type": "string",
+          "example": "Paulo Coelho"
+        }
+      }
+    },
+    "BookPatch": {
+      "type": "object",
+      "properties": {
+        "isbn": {
+          "type": "string",
+          "example": "978-3-16-148410-0"
+        },
+        "title": {
+          "type": "string",
+          "example": "Der Alchimist"
+        },
+        "year": {
+          "type": "integer",
+          "example": 1988
+        },
+        "author": {
+          "type": "string",
+          "example": "Paulo Coelho"
+        }
+      }
+    },
+    "Lend": {
+      "type": "object",
+      "required": ["id", "customerId", "isbn", "borrowedAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "550e8400-e29b-41d4-a716-446655440000"
+        },
+        "customerId": {
+          "type": "integer",
+          "example": 1
+        },
+        "isbn": {
+          "type": "string",
+          "example": "978-0-7432-7356-5"
+        },
+        "borrowedAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-03-13T10:30:00.000Z"
+        },
+        "returnedAt": {
+          "type": "string",
+          "format": "date-time",
+          "x-nullable": true,
+          "example": null
+        }
+      }
+    },
+    "LendInput": {
+      "type": "object",
+      "required": ["customerId", "isbn"],
+      "properties": {
+        "customerId": {
+          "type": "integer",
+          "example": 1
+        },
+        "isbn": {
+          "type": "string",
+          "example": "978-0-7432-7356-5"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+meta {
+  name: try to post lends with nonexistent book
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/lends
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "customerId":1,
+    "isbn":"9780140328721"
+  }
+   
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
